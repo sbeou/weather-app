@@ -6,6 +6,7 @@ import Form from './components/Form';
 import { Provider } from 'react-redux';
 import store from './utils/store';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ResultSearch from './components/ResultSearch';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,6 +16,7 @@ root.render(
         <Header />
         <Routes>
           <Route exact path='/' element={<Form />} />
+          <Route path='/previsao-de-tempo' element={<ResultSearch />} />
         </Routes>
       </BrowserRouter>
     </React.StrictMode>

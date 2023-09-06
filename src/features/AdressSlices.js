@@ -18,7 +18,25 @@ export const fetchCep = createAsyncThunk(
         }
     }
 )
+export const fetchGeocode = createAsyncThunk(
+    'adress/fetchGeocode',
+    async ({address}, thunkAPI) => {
+        try {
+        const response = await fetch(`https://geocode.maps.co/search?q=${address}`);
+        const data = await response.json();
 
+        if (response.status === 200) {
+            return data;
+            
+        } else {
+            return thunkAPI.rejectWithValue(data);
+        }
+        } catch (e) {
+            console.log('Error', e.response.data);
+            return thunkAPI.rejectWithValue(e.response.data);
+        }
+    }
+)
 export const adressSlice = createSlice({
   name: 'adress',
   initialState: {
@@ -32,7 +50,6 @@ export const adressSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.isFetching = false;
-
       return state;
     },
   },
@@ -43,7 +60,7 @@ export const adressSlice = createSlice({
     [fetchCep.fulfilled]: (state, { payload }) => {
       state.isFetching = false;
       state.isSuccess = true;
-      state.address = payload.logradouro;
+      state.street = payload.logradouro;
       state.neighborhood = payload.bairro;
       state.city = payload.localidade;
       state.uf = payload.uf;
@@ -54,7 +71,20 @@ export const adressSlice = createSlice({
       state.isFetching = false;
       state.isError = true;
     },
-  },
+    [fetchGeocode.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [fetchGeocode.fulfilled]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isSuccess = true;
+      state.geocode = payload;
+    },
+    [fetchGeocode.rejected]: (state) => {
+      console.log('fetchGeocode');
+      state.isFetching = false;
+      state.isError = true;
+    }
+  }
 });
 
 export const { clearState } = adressSlice.actions;
