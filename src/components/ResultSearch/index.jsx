@@ -1,19 +1,23 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { adressSelector, clearState } from '../../features/AdressSlices';
-import { Link} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import './resultSearchStyle.scss'
 import Weather from '../Weather';
 
 function ResultSearch() {
-    const { geocode, isFetching, isSuccess  } = useSelector(adressSelector)
+    const { geocode, isFetching } = useSelector(adressSelector)
     const searchResult = geocode
     const dispatch = useDispatch()
     const newSearch = () => {
         dispatch(clearState())
     }
+    const navigate = useNavigate()
+    if(!geocode) {
+        navigate('/');
+    }
     return (
         <main className='main'>
-            {isFetching && isSuccess ? (<p>Carregando</p>) : (
+            {isFetching ? (<p>Carregando</p>) : (
                 searchResult?.length > 0  ? (
                     <>
                         {searchResult.map((result) => (

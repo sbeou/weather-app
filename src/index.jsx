@@ -19,6 +19,7 @@ root.render(
         <Routes>
           <Route exact path='/' element={<Form />} />
           <Route path='/previsao-de-tempo' element={<ResultSearch />} />
+          <Route path='*' element={<Form />} />
         </Routes>
         <Footer />
       </BrowserRouter>
