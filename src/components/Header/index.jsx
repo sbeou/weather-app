@@ -1,7 +1,7 @@
 function Header() {
     return (
         <header>
-            <h1>Weather App</h1>
+            <h1>Weather App <i class="fad fa-cloud-sun-rain"></i></h1>
         </header>
     )
 }

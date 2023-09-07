@@ -1,40 +1,22 @@
-import { useCallback, useState } from "react";
-import Modal from "react-modal";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import './weatherStyle.scss';
 
 function Weather({data}) {
+    const [temperature, setTemperature] = useState();
+    const [windspeed, setWindspeed] = useState();
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${data.lat}&longitude=${data.lon}&current_weather=true`).then(res => res.json()).then(data => {
+      setTemperature(data.current_weather.temperature)
+      setWindspeed(data.current_weather.windspeed)
+    });
     const title = data.display_name
-    const [isOpen, setIsOpen] = useState(false);
-    const [weatherId, setweatherId] = useState(false);
-    Modal.setAppElement('#root');
-    const toggleModal = useCallback((id) => () => {
-        setIsOpen(!isOpen)
-        setweatherId(id)
-    }, [isOpen]);
-    const customStyles = {
-        content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-        },
-    };
     return (
-        <>
-            <p><Link onClick={toggleModal(data.place_id)}>{title.slice(0,150)}...</Link></p>
-            <Modal
-                style={customStyles}
-                isOpen={isOpen}
-                onRequestClose={toggleModal(weatherId)}>
-                <button className="close-modal" onClick={toggleModal(weatherId)}>
-                    X 
-                </button>
-                <h3>{title}</h3>
-            </Modal>
-        </>
+        <div className="result">
+            <div className="temp">
+                <div><i class="fad fa-thermometer-half"></i> {temperature}ºC</div>
+                <div><i class="fad fa-wind"></i> {windspeed}km/h</div>
+            </div>
+            <p><i class="fad fa-map-marker-alt"></i> {title}</p>
+        </div>
     )
 }
 export default Weather

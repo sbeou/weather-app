@@ -5,7 +5,7 @@ import './resultSearchStyle.scss'
 import Weather from '../Weather';
 
 function ResultSearch() {
-    const { geocode, isFetching, isSuccess } = useSelector(adressSelector)
+    const { geocode, isFetching, isSuccess  } = useSelector(adressSelector)
     const searchResult = geocode
     const dispatch = useDispatch()
     const newSearch = () => {
@@ -13,10 +13,8 @@ function ResultSearch() {
     }
     return (
         <main className='main'>
-            <h2>Resultado da busca</h2>
-            
             {isFetching && isSuccess ? (<p>Carregando</p>) : (
-                searchResult.length > 0 ? (
+                searchResult?.length > 0  ? (
                     <>
                         {searchResult.map((result) => (
                             <Weather
@@ -33,8 +31,7 @@ function ResultSearch() {
                         </>
                     )
             )}
-        </main>
-        
+        </main>  
     )
 }
 
