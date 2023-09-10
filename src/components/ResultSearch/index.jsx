@@ -6,7 +6,7 @@ import Weather from '../Weather';
 
 function ResultSearch() {
     const { geocode, isFetching } = useSelector(adressSelector)
-    const searchResult = geocode
+    const searchResult = geocode?.find(element=>element!==undefined);
     const dispatch = useDispatch()
     const newSearch = () => {
         dispatch(clearState())
@@ -15,26 +15,17 @@ function ResultSearch() {
     if(!geocode) {
         navigate('/');
     }
+    console.log(isFetching)
     return (
         <main className='main'>
             {isFetching ? (<p>Carregando</p>) : (
-                searchResult?.length > 0  ? (
-                    <>
-                        {searchResult.map((result) => (
-                            <Weather
-                            key={result.place_id} 
-                            data={result}
-                            /> 
-                        ))}
-                        <Link className='button' to={'/'} onClick={newSearch}>Nova busca</Link>
-                    </>
-                    ) : (
-                        <>
-                            <p>Nenhum resultado encontrado</p>
-                            <Link className='button' to={'/'} onClick={newSearch}>Nova busca</Link>
-                        </>
-                    )
+                searchResult  ? ( 
+                    <Weather data={searchResult} />
+                ) : (
+                    <p>Nenhum resultado encontrado</p>
+                )      
             )}
+            <Link className='button' to={'/'} onClick={newSearch}>Nova busca</Link>
         </main>  
     )
 }
