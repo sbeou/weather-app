@@ -1,10 +1,9 @@
 # Weather App - ReactJS Projects
 
 ### Demo
-https://weather-app.french.dev.br/
+https://weather-app.french.dev.br/v2
 
 ### APIs Used
-* https://viacep.com.br/
 * https://open-meteo.com/
 * https://geocode.maps.co/
 
