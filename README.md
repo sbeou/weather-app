@@ -1,7 +1,7 @@
 # Weather App - ReactJS Projects
 
 ### Demo
-https://weather-app.french.dev.br/v2
+https://weather-app.french.dev.br/
 
 ### APIs Used
 * https://open-meteo.com/
