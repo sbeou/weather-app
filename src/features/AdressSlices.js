@@ -50,6 +50,7 @@ export const adressSlice = createSlice({
       state.isError = false;
       state.isSuccess = false;
       state.isFetching = false;
+      state.geocode = undefined;
       return state;
     },
   },
