@@ -4,7 +4,6 @@
 https://weather-app.french.dev.br/
 
 ### APIs Used
-* https://viacep.com.br/
 * https://open-meteo.com/
 * https://geocode.maps.co/
 
