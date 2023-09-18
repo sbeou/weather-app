@@ -24,7 +24,6 @@ function Weather({data}) {
     if (weathercode === 71 || weathercode === 73 || weathercode === 74  || weathercode === 77) {weatherIcon = 'fa-snowflake blue'}
     if (weathercode === 85 || weathercode === 86) {weatherIcon = 'fa-cloud-snow blue'}
     if (weathercode === 95 || weathercode === 96 || weathercode === 99) {weatherIcon = 'fa-thunderstorm'}
-    console.log(weathercode)
     const title = data.display_name
     return (
         <div className="result">

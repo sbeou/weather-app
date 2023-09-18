@@ -15,7 +15,6 @@ function ResultSearch() {
     if(!geocode) {
         navigate('/');
     }
-    console.log(isFetching)
     return (
         <main className='main'>
             {isFetching ? (<p>Carregando</p>) : (
