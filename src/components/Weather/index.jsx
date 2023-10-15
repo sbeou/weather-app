@@ -1,40 +1,99 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './weatherStyle.scss';
+import moment from "moment/moment";
 
 function Weather({data}) {
-    const [temperature, setTemperature] = useState();
-    const [windspeed, setWindspeed] = useState();
     const [weathercode, setWeathercode] = useState();
-    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${data.lat}&longitude=${data.lon}&current_weather=true`).then(res => res.json()).then(data => {
-        setTemperature(data.current_weather.temperature)
-        setWindspeed(data.current_weather.windspeed)
-        setWeathercode(parseInt(data.current_weather.weathercode, 10))
-    });
-    let weatherIcon = 'fa-exclamation-triangle'
-    if (weathercode === 0) {weatherIcon = 'fa-sun yellow'}
-    if (weathercode === 1) {weatherIcon = 'fa-sun-cloud yellow'}
-    if (weathercode === 2 || weathercode === 3) {weatherIcon = 'fa-clouds'}
-    if (weathercode === 45 || weathercode === 48) {weatherIcon = 'fog'}
-    if (weathercode === 51 || weathercode === 53) {weatherIcon = 'cloud-drizzle'}
-    if (weathercode > 54 && weathercode < 58) {weatherIcon = 'cloud-drizzle'}
-    if (weathercode === 61) {weatherIcon = 'fa-cloud-rain blue'}
-    if (weathercode === 63) {weatherIcon = 'fa-cloud-showers blue'}
-    if (weathercode === 65) {weatherIcon = 'fa-cloud-showers-heavy'}
-    if (weathercode > 79 && weathercode < 83) {weatherIcon = 'fa-cloud-showers-heavy'}
-    if (weathercode === 71 || weathercode === 73 || weathercode === 74  || weathercode === 77) {weatherIcon = 'fa-snowflake blue'}
-    if (weathercode === 85 || weathercode === 86) {weatherIcon = 'fa-cloud-snow blue'}
-    if (weathercode === 95 || weathercode === 96 || weathercode === 99) {weatherIcon = 'fa-thunderstorm'}
-    const title = data.display_name
+    const [currentWeather, setCurrentWeather] = useState();
+    const [daily, setDaily] = useState();
+    const [location, setLocation] = useState();
+    useEffect(() => {
+        const getWeather = async () => {
+                await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${data.lat}&longitude=${data.lon}&current=is_day&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&timezone=auto&forecast_days=6`).then(res => res.json()).then(data => {
+            setCurrentWeather(data.current_weather)
+            setWeathercode(parseInt(data.current_weather.weathercode, 10))
+            setDaily(data.daily)
+        });
+        }
+        getWeather();
+    }, [data.lat, data.lon])
+    useEffect(() => {
+        const getApiLocation = async () => {
+            await fetch(`https://geocode.maps.co/reverse?lat=${data.lat}&lon=${data.lon}`).then(res => res.json().then(data => {
+                const getCity = () => {
+                    if(data.address.city) {
+                        return `${data.address.city},`
+                    }
+                    if(data.address.municipality) {
+                        return `${data.address.municipality},`
+                    }
+                    if(data.address.city_district) {
+                        return `${data.address.city_district},`
+                    }
+                    return ''
+                }
+                setLocation(`${getCity()} ${data.address.state}`)
+            }))
+        }
+        getApiLocation();
+    },[data.lat, data.lon])
+    const weatherIcon = {
+        0: 'fa-sun yellow',
+        1: 'fa-sun-cloud yellow',
+        2: 'fa-clouds',
+        3: 'fa-clouds',
+        45: 'fa-fog',
+        48: 'fa-fog',
+        51: 'fa-loud-drizzle',
+        53: 'fa-loud-drizzle',
+        55: 'fa-loud-drizzle',
+        56: 'fa-cloud-drizzle',
+        57: 'fa-cloud-drizzle',
+        61: 'fa-cloud-rain blue',
+        63: 'fa-cloud-showers blue',
+        71: 'fa-snowflake blue',
+        73: 'fa-snowflake blue',
+        74: 'fa-snowflake blue',
+        77: 'fa-snowflake blue',
+        80: 'fa-cloud-showers-heavy',
+        81: 'fa-cloud-showers-heavy',
+        82: 'fa-cloud-showers-heavy',
+        85: 'fa-cloud-snow blue',
+        86: 'fa-cloud-snow blue',
+        95: 'fa-thunderstorm',
+        96: 'fa-thunderstorm',
+        99: 'fa-thunderstorm'
+    }
+    const weekDay = [
+        "SEG",
+        "TER",
+        "QUA",
+        "QUI",
+        "SEX",
+        "SAB",
+        "DOM"
+    ]
     return (
         <div className="result">
+            <h2>{location}</h2>
             {weathercode !== undefined && (
-                <div className="weathericon"><i className={`fad ${weatherIcon}`}></i></div>
+                <div className="weathericon"><i className={`fad ${weatherIcon[weathercode]}`}></i></div>
             )} 
             <div className="temp">
-                <div><i className="fad fa-thermometer-half"></i> {temperature}ºC</div>
-                <div><i className="fad fa-wind"></i> {windspeed}km/h</div>
+                <div><i className="fad fa-thermometer-half"></i> {currentWeather?.temperature}ºC</div>
+                <div><i className="fad fa-wind"></i> {currentWeather?.windspeed}km/h</div>
             </div>
-            <p><i className="fad fa-map-marker-alt"></i> {title}</p>
+            <ul className="dailyWeather">
+                {daily && (   
+                    daily.time.map((date,index) => (
+                        <li key={date}><p>{weekDay[moment(date).day()]}</p>
+                        <p><i className={`fad fs-xl ${weatherIcon[daily.weathercode[index]]}`}></i></p>
+                        <p>{daily.temperature_2m_max[index]}ºC</p>
+                        
+                        </li>
+                    ))
+                )}
+            </ul>
         </div>
     )
 }

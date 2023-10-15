@@ -1,6 +1,6 @@
 .result {
     text-align: left;
-    padding: 20px 30px;
+    padding: 0 30px;
     margin: 10px -20px;
     text-align: center;
 }
@@ -11,12 +11,28 @@
     gap: 1em;
 }
 .weathericon {
-    font-size: 5em;
-    padding-bottom: 0.5em;
+    font-size: 10em;
+    padding-bottom: 0.1em;
 }
 .yellow {
     color: #ffae00;
 }
 .blue {
     color: #0069b4;
+}
+.fs-xl {
+    font-size: 1.75em;
+}
+.dailyWeather {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    justify-content: space-between;
+    li{
+        margin: 0;
+        padding: 0;
+        p:last-child {
+            font-size: .8em;
+        }
+    }
 }
