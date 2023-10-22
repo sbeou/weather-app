@@ -16,7 +16,7 @@ function Weather({data}) {
         });
         }
         getWeather();
-    }, [data.lat, data.lon])
+    }, [data])
     useEffect(() => {
         const getApiLocation = async () => {
             await fetch(`https://geocode.maps.co/reverse?lat=${data.lat}&lon=${data.lon}`).then(res => res.json().then(data => {
@@ -36,7 +36,7 @@ function Weather({data}) {
             }))
         }
         getApiLocation();
-    },[data.lat, data.lon])
+    },[data])
     const weatherIcon = {
         0: 'fa-sun yellow',
         1: 'fa-sun-cloud yellow',
