@@ -17,13 +17,9 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  color: white;
+  background: rgb(0,105,180);
+  background: linear-gradient(180deg, rgba(0,105,180,1) 0%, rgba(0,159,227,1) 100%);
 }
 .main {
   min-height: calc(100vh - 110px);
