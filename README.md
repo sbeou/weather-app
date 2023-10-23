@@ -1,7 +1,7 @@
 # Weather App
 
 ## 🔗 Demo
-https://weather-app.french.dev.br/
+https://weather-app-br.vercel.app/
 
 ## 💎 Vertion v3.0
 
