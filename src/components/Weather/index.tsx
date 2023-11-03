@@ -134,6 +134,11 @@ export default function Weather({data} : {data:IGeocodeData}) {
         "DOM"
     ]
     moment.locale('pt-br');
+    const currentWeatherCode: number = weatherData.current_weather.weathercode
+    const currentDate: string = weatherData.current_weather.time
+    const dailyWeatherCode: number[] = weatherData.daily.weathercode
+    const dailyTemperatureMax: number[] = weatherData.daily.temperature_2m_max
+    const dailyTemperatureMin: number[] = weatherData.daily.temperature_2m_min
   return (
     <motion.div 
       className="flex flex-col items-center gap-3 pb-10"
@@ -141,15 +146,15 @@ export default function Weather({data} : {data:IGeocodeData}) {
       animate={{opacity: 1}}
       transition={{duration: 2, delay: 1}}
     >
-      <p className="font-bold">{moment(weatherData.current_weather.time).format("DD/MM/YYYY")}</p>
+      <p className="font-bold">{moment(currentDate).format("DD/MM/YYYY")}</p>
       <Image
-        src={`/icon/${weatherIcon[weatherData.current_weather.weathercode].icon}`}
+        src={`/icon/${weatherIcon[currentWeatherCode].icon}`}
         width={200}
         height={200}
         alt="tempo"
         className="transition-all"
       />
-      <h3 className="text-xl font-light">{weatherIcon[weatherData.current_weather.weathercode].title}</h3>
+      <h3 className="text-xl font-light">{weatherIcon[currentWeatherCode].title}</h3>
       <div className="text-8xl font-thin py-5">
         {weatherData.current_weather.temperature}<sup>º</sup>
       </div>
@@ -158,14 +163,14 @@ export default function Weather({data} : {data:IGeocodeData}) {
           <li key={date} className="flex flex-col gap-3">
             <p>{weekDay[moment(date).day()]}</p>
             <Image 
-              src={`/icon/${weatherIcon[weatherData.daily.weathercode[index]].icon}`}
+              src={`/icon/${weatherIcon[dailyWeatherCode[index]].icon}`}
               width={30}
               height={30}
               alt="tempo"
               className="transition-all"
             />
-            <p className="text-md">{weatherData.daily.temperature_2m_max[index]}<sup>º</sup></p>
-            <p className="text-md">{weatherData.daily.temperature_2m_min[index]}<sup>º</sup></p>
+            <p className="text-md">{dailyTemperatureMax[index]}<sup>º</sup></p>
+            <p className="text-md">{dailyTemperatureMin[index]}<sup>º</sup></p>
           </li>
         ))}
       </ul>
