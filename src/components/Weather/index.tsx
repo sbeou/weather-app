@@ -3,6 +3,8 @@ import Image from 'next/image'
 import moment from "moment";
 import { motion } from "framer-motion";
 
+
+
 import { IGeocodeData, IWeather, IWeathercode } from "@/interfaces/interface";
 
 export default function Weather({data} : {data:IGeocodeData}) {
@@ -16,7 +18,7 @@ export default function Weather({data} : {data:IGeocodeData}) {
     getApiWeather({data})
   },[data])
   if(weatherData === undefined) {
-    return ''
+    return
   }
   const weatherIcon : IWeathercode = {
         0: {
