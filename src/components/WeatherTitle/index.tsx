@@ -7,7 +7,7 @@ export default function WeatherTitle({data} : {data:IGeocodeData}) {
   const [cityData, setCityData] = useState<ILocation>()
   useEffect(() => {
     async function getApiLocation({data}: {data: IGeocodeData}) {
-      await fetch(`${process.env.API_GEOCODE}/reverse?lat=${data.lat}&lon=${data.lon}`).then(res => res.json()).then(data => {
+      await fetch(`${process.env.API_GEOCODE}/reverse?lat=${data.lat}&lon=${data.lon}&api_key=65a59179e0206100529633ebsc8bf8b`).then(res => res.json()).then(data => {
         setCityData(data)  
       });
     }
