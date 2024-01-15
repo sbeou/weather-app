@@ -18,6 +18,7 @@ export default function ResultSearch() {
               setGeocode({
                   lat: data[0].lat,
                   lon: data[0].lon,
+                  display_name: data[0].display_name,
               })
           });
         }

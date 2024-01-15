@@ -1,6 +1,7 @@
 export interface IGeocodeData {
   lat: string;
   lon: string;
+  display_name: string;
 }
 export interface ILocation {
   address: {
