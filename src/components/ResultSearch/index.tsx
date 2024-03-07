@@ -1,4 +1,4 @@
-"use client";
+//"use client";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
@@ -14,7 +14,7 @@ export default function ResultSearch() {
   const [geocode, setGeocode] = useState<IGeocodeData>()
   useEffect(() => {
         async function getGeocodeData({city} : {city : string}) {
-            await fetch(`${process.env.API_GEOCODE}/search?q=${city}`).then(res => res.json()).then(data => {
+            await fetch(`${process.env.API_GEOCODE}/search?q=${city}&api_key=65a59179e0206100529633ebsc8bf8b`).then(res => res.json()).then(data => {
               setGeocode({
                   lat: data[0].lat,
                   lon: data[0].lon,
