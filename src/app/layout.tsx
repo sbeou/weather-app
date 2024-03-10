@@ -36,9 +36,12 @@ export default function RootLayout({
           />
         </header>
         <AddressProvider>
-          {children}
+          <main className="flex items-center justify-center main">
+            {children}
+          </main>
         </AddressProvider>
-        <footer className="w-full fixed bottom-0 bg-sky-800 py-1 text-center">
+        
+        <footer className="w-full fixed bottom-0 bg-sky-800 text-center flex justify-center gap-3 items-center">
           © Developpment <Link href={"https://french.dev.br"} target='_Blank' className="hover:underline hover:opacity-75 transition-all">Sébastien Guilet</Link> 
         </footer>
         </body>

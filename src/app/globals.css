@@ -18,12 +18,14 @@
 
 body {
   color: white;
-  background: rgb(0,105,180);
-  background: linear-gradient(180deg, rgba(0,105,180,1) 0%, rgba(0,159,227,1) 100%);
+  background: rgb(0, 105, 180) !important;
+  background: linear-gradient(180deg, rgba(0, 105, 180, 1) 0%, rgba(0, 159, 227, 1) 100%) !important;
 }
+
 .main {
   min-height: calc(100vh - 110px);
 }
+
 .result {
-  //min-height: calc(100vh - 200px); 
+  min-height: calc(100vh - 200px);
 }

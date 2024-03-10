@@ -147,7 +147,7 @@ export default function Weather({geocode} : {geocode:IGeocodeData}) {
     const dailyTemperatureMin: number[] = weatherData.daily.temperature_2m_min
   return (
     <motion.div 
-      className="flex flex-col items-center gap-3 pb-10"
+      className="flex flex-col items-center pb-10"
       initial={{opacity: 0}}
       animate={{opacity: 1}}
       transition={{duration: 2, delay: 1}}
@@ -160,8 +160,8 @@ export default function Weather({geocode} : {geocode:IGeocodeData}) {
         alt="tempo"
         className="transition-all"
       />
-      <h3 className="text-xl font-light">{weatherIcon[currentWeatherCode].title}</h3>
-      <div className="text-8xl font-thin py-5">
+      <h3 className="text-xl font-light -mt-10">{weatherIcon[currentWeatherCode].title}</h3>
+      <div className="text-8xl font-thin pb-5">
         {weatherData.current_weather.temperature}<sup>º</sup>
       </div>
       <ul className="flex m-0 p-0 list-none justify-between w-full max-w-sm transition-all">
