@@ -2,9 +2,9 @@ import { motion } from "framer-motion";
 
 import { IGeocodeData } from "@/interfaces/interface";
 
-export default function WeatherTitle({data} : {data:IGeocodeData}) {
+export default function WeatherTitle({geocode} : {geocode:IGeocodeData}) {
   
-  const location: string = data.display_name.slice(0, data.display_name.indexOf(','))
+  const location = geocode.display_name.slice(0, geocode.display_name.indexOf(','))
   return (
     <motion.h2 
       className="text-4xl font-light"

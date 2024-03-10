@@ -1,43 +1,36 @@
 //"use client";
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 
-import Weather from "../Weather";
+import { Loader } from "../loader";
 import WeatherTitle from "../WeatherTitle";
+import Weather from "../Weather";
 
-import { useAddressContext } from "@/context/address";
-import { AddressContextType, IGeocodeData } from "@/interfaces/interface";
+import { fetchGeocode } from "@/app/fetchApi/fetchGeocode";
 
-export default function ResultSearch() {
-  const { address } = useAddressContext() as AddressContextType;
-  const city = address.address
-  const [geocode, setGeocode] = useState<IGeocodeData>()
-  useEffect(() => {
-        async function getGeocodeData({city} : {city : string}) {
-            await fetch(`${process.env.API_GEOCODE}/search?q=${city}&api_key=65a59179e0206100529633ebsc8bf8b`).then(res => res.json()).then(data => {
-              setGeocode({
-                  lat: data[0].lat,
-                  lon: data[0].lon,
-                  display_name: data[0].display_name,
-              })
-          });
-        }
-        if(city) {
-          getGeocodeData({city});
-        }
-    }, [city])
-  if (geocode === undefined) {
-    return <h2 className="p-5 text-3xl font-light pb-10">Digite o nome da cidade</h2>
+export default function ResultSearch({address} : {address : string}) {
+
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['geocode', address],
+    queryFn: () => fetchGeocode(address),
+  });
+
+  if (isLoading || !data) {
+    return <div className="min-h-96"><Loader /></div>;
   }
+    
+  const geocode = data[0];
+
 return (
   <motion.section 
-    className="text-center w-full result"
+    className="text-center w-full result min-h-96"
       initial={{opacity: 0}}
       animate={{opacity: 1}}
       transition={{duration: 2, delay: 1}}
   >
-    <WeatherTitle data={geocode} />
-    <Weather data={geocode} />
+   <WeatherTitle geocode={geocode} />
+    <Weather geocode={geocode} /> 
   </motion.section>
 )
 }

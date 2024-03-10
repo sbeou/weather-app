@@ -1,22 +1,26 @@
-import { useEffect, useState } from "react";
 import Image from 'next/image'
 import moment from "moment";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 
+import { Loader } from '../loader';
 
+import { IGeocodeData, IWeathercode } from "@/interfaces/interface";
+import { fetchMeteo } from "@/app/fetchApi/fetchMeteo";
 
-import { IGeocodeData, IWeather, IWeathercode } from "@/interfaces/interface";
+export default function Weather({geocode} : {geocode:IGeocodeData}) {
 
-export default function Weather({data} : {data:IGeocodeData}) {
-  const [weatherData, setWeatherData] = useState<IWeather>()
-  useEffect(() => {
-    async function getApiWeather({data}: {data: IGeocodeData}) {
-      await fetch(`${process.env.API_METEO}/v1/forecast?latitude=${data.lat}&longitude=${data.lon}&current=is_day&current_weather=true&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max&timezone=auto&forecast_days=6`).then(res => res.json()).then(data => {
-        setWeatherData(data)  
-      });
-    }
-    getApiWeather({data})
-  },[data])
+  const {data, isLoading} = useQuery({
+    queryKey: ['meteo', geocode],
+    queryFn: () => fetchMeteo(geocode)
+  })
+
+  if (isLoading || !data) {
+    return <div className="min-h-96"><Loader /></div>;
+  }
+
+  const weatherData = data;
+
   if(weatherData === undefined) {
     return
   }
