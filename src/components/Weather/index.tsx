@@ -2,6 +2,7 @@ import Image from 'next/image'
 import moment from "moment";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
+import Link from 'next/link';
 
 import { Loader } from '../loader';
 
@@ -160,11 +161,11 @@ export default function Weather({geocode} : {geocode:IGeocodeData}) {
         alt="tempo"
         className="transition-all"
       />
-      <h3 className="text-xl font-light -mt-10">{weatherIcon[currentWeatherCode].title}</h3>
+      <h3 className="text-xl font-light mb-1">{weatherIcon[currentWeatherCode].title}</h3>
       <div className="text-8xl font-thin pb-5">
         {weatherData.current_weather.temperature}<sup>º</sup>
       </div>
-      <ul className="flex m-0 p-0 list-none justify-between w-full max-w-sm transition-all">
+      <ul className="flex m-0 p-0 list-none justify-between w-full max-w-sm transition-all pb-3">
         {weatherData.daily.time.map((date, index) => (
           <li key={date} className="flex flex-col gap-3">
             <p>{weekDay[moment(date).day()]}</p>
@@ -180,6 +181,7 @@ export default function Weather({geocode} : {geocode:IGeocodeData}) {
           </li>
         ))}
       </ul>
+      <Link href={"/"} className="bg-yellow-500 px-4 py-2 border-yellow-500 border hover:bg-transparent text-white hover:text-yellow-500 transition-all">Nova Busca</Link>
     </motion.div>
   )
 }
